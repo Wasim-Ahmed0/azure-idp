@@ -9,6 +9,7 @@ terraform {
 
 provider "azurerm" {
   features {}
+  subscription_id = "<your-subscription-id>"
 }
 
 variable "location" {
@@ -26,7 +27,7 @@ variable "resource_group_name" {
 variable "storage_account_name" {
   description = "Storage account name for Terraform state"
   type        = string
-  default     = "strtfstate"
+  default     = "strtfstate20260228"
 }
 
 variable "container_name" {
