@@ -5,13 +5,13 @@ on:
     branches: ["main"]
     paths:
       - "infra/**"
-      - ".github/workflows/terraform.yml"
+      - ".github/workflows/terraform-dev.yml"
 
   push:
     branches: ["main"]
     paths:
       - "infra/**"
-      - ".github/workflows/terraform.yml"
+      - ".github/workflows/terraform-dev.yml"
 
   workflow_dispatch:
     inputs:
@@ -40,7 +40,7 @@ env:
 jobs:
   plan:
     name: Plan
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.action == 'apply')
     runs-on: ubuntu-latest
     environment: dev
 
@@ -106,6 +106,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && inputs.action == 'destroy'
     runs-on: ubuntu-latest
     environment: dev
+    needs: plan
 
     defaults:
       run:
@@ -137,4 +138,3 @@ jobs:
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
-        
