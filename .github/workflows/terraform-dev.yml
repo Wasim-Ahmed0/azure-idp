@@ -118,15 +118,15 @@ jobs:
         working-directory: infra/environments/dev
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        
       - name: Destroy Guardrail
         run: |
           if [ "${{ inputs.confirm }}" != "DESTROY" ]; then
             echo "Refusing to destroy. Re-run workflow and set confirm=DESTROY"
             exit 1
           fi
-
-      - name: Checkout
-        uses: actions/checkout@v6
 
       - name: Azure Login (OIDC)
         uses: azure/login@v2
